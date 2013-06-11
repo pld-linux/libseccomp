@@ -1,12 +1,12 @@
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
-Version:	2.0.0
+Version:	2.1.0
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/libseccomp/%{name}-%{version}.tar.gz
-# Source0-md5:	f988feac6a3425f2c918f32b28df1caa
+# Source0-md5:	3961103c1234c13a810f6a12e60c797f
 Patch0:		%{name}-pc.patch
 URL:		http://libseccomp.sourceforge.net/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -84,8 +84,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG CREDITS README
+%attr(755,root,root) %{_bindir}/scmp_sys_resolver
 %attr(755,root,root) %{_libdir}/libseccomp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libseccomp.so.2
+%{_mandir}/man1/scmp_sys_resolver.1*
 
 %files devel
 %defattr(644,root,root,755)
