@@ -1,6 +1,6 @@
 #
 %bcond_without	tests
-#
+
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
@@ -12,6 +12,7 @@ Source0:	http://downloads.sourceforge.net/libseccomp/%{name}-%{version}.tar.gz
 # Source0-md5:	1f41207b29e66a7e5e375dd48a64de85
 Patch0:		%{name}-pc.patch
 URL:		http://libseccomp.sourceforge.net/
+BuildRequires:	bash
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -25,8 +26,8 @@ and easily adopted by application developers.
 %description -l pl.UTF-8
 Biblioteka libseccomp udostępnia łatwy w użyciu, niezależny od
 platformy interfejs do mechanizmu filtrowania wywołań systemowych
-jądra Linuksa - seccomp. API libseccomp jest zaprojektowane tak,
-żeby wyabstrahować język filtrowania wywołań BPF niższego poziomu i
+jądra Linuksa - seccomp. API libseccomp jest zaprojektowane tak, żeby
+wyabstrahować język filtrowania wywołań BPF niższego poziomu i
 zaprezentować bardziej konwencjonalny interfejs filtrowania w oparciu
 o wywołania funkcji, który powinien być bardziej przyjazny i łatwiej
 adaptowalny dla programistów aplikacji.
@@ -74,11 +75,10 @@ CFLAGS="%{rpmcflags} -Wall" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install src/libseccomp.a $RPM_BUILD_ROOT%{_libdir}
+cp -p src/libseccomp.a $RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
