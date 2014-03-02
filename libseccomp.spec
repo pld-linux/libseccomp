@@ -1,3 +1,6 @@
+#
+%bcond_without	tests
+#
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
@@ -66,6 +69,8 @@ GCC="%{__cc}" \
 CFLAGS="%{rpmcflags} -Wall" \
 %{__make} \
 	V=1
+
+%{?with_tests:%{__make} check V=1}
 
 %install
 rm -rf $RPM_BUILD_ROOT
