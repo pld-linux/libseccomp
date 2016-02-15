@@ -14,7 +14,6 @@ Group:		Libraries
 Source0:	https://github.com/seccomp/libseccomp/releases/download/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	7db418d35d7a6168400bf6b05502f8bf
 URL:		https://github.com/seccomp/libseccomp
-BuildRequires:	bash
 BuildRequires:	pkgconfig
 %if %{with python}
 BuildRequires:	python-Cython >= 0.16
