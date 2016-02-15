@@ -2,6 +2,7 @@
 # Conditional build:
 %bcond_without	tests
 %bcond_without	static_libs	# don't build static libraries
+%bcond_with	python		# build Python bindings
 
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
@@ -14,6 +15,9 @@ Source0:	https://github.com/seccomp/libseccomp/releases/download/v%{version}/%{n
 # Source0-md5:	7db418d35d7a6168400bf6b05502f8bf
 URL:		https://github.com/seccomp/libseccomp
 BuildRequires:	bash
+%if %{with python}
+BuildRequires:	python-Cython >= 0.16
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -63,6 +67,7 @@ Statyczna biblioteka Seccomp.
 %build
 %configure \
 	--disable-silent-rules \
+	%{?with_python:--enable-python} \
 	%{!?with_static_libs:--disable-static}
 %{__make}
 
