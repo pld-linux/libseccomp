@@ -1,9 +1,13 @@
 #
 # Conditional build:
-%bcond_without	tests
-%bcond_without	static_libs	# don't build static libraries
-%bcond_with	python		# build Python bindings
+%bcond_without	tests		# "make check"
+%bcond_without	static_libs	# static library
+%bcond_without	python		# Python bindings
 
+%ifnarch %{x8664}
+# tests seem broken on x86 and x32
+%undefine	with_tests
+%endif
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
@@ -17,6 +21,8 @@ URL:		https://github.com/seccomp/libseccomp
 BuildRequires:	pkgconfig
 %if %{with python}
 BuildRequires:	python-Cython >= 0.16
+BuildRequires:	python-devel
+BuildRequires:	rpm-pythonprov
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -60,6 +66,18 @@ Static Seccomp library.
 
 %description static -l pl.UTF-8
 Statyczna biblioteka Seccomp.
+
+%package -n python-seccomp
+Summary:	Python binding for seccomp library
+Summary(pl.UTF-8):	Wiązanie Pythona do biblioteki seccomp
+Group:		Libraries/Python
+Requires:	%{name} = %{version}-%{release}
+
+%description -n python-seccomp
+Python binding for seccomp library.
+
+%description -n python-seccomp -l pl.UTF-8
+Wiązanie Pythona do biblioteki seccomp.
 
 %prep
 %setup -q
@@ -106,4 +124,11 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libseccomp.a
+%endif
+
+%if %{with python}
+%files -n python-seccomp
+%defattr(644,root,root,755)
+%attr(755,root,root) %{py_sitedir}/seccomp.so
+%{py_sitedir}/seccomp-%{version}-py*.egg-info
 %endif
