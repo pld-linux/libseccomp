@@ -11,12 +11,12 @@
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
-Version:	2.2.3
-Release:	2
+Version:	2.3.1
+Release:	1
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	https://github.com/seccomp/libseccomp/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	7db418d35d7a6168400bf6b05502f8bf
+# Source0-md5:	e6f3e84921ef9c2e9188681963f0943f
 URL:		https://github.com/seccomp/libseccomp
 BuildRequires:	pkgconfig
 %if %{with python}
