@@ -2,7 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# "make check"
 %bcond_without	static_libs	# static library
-%bcond_without	python		# Python bindings
+%bcond_without  python2 # CPython 2.x module
+%bcond_without  python3 # CPython 3.x module
 
 %ifnarch %{x8664}
 # tests seem broken on x86 and x32
@@ -11,19 +12,24 @@
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
-Version:	2.3.3
+Version:	2.4.1
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
 #Source0Download: https://github.com/seccomp/libseccomp/releases
 Source0:	https://github.com/seccomp/libseccomp/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	e6b4e463857fe05c09dc56ec3bcaef84
+# Source0-md5:	4fa6b0f39b48b8644415d7a9a9dfe9f4
 URL:		https://github.com/seccomp/libseccomp
 BuildRequires:	pkgconfig
-%if %{with python}
+%if %{with python2}
 BuildRequires:	python-Cython >= 0.16
 BuildRequires:	python-devel
 BuildRequires:	rpm-pythonprov
+%endif
+%if %{with python3}
+BuildRequires:  python3-Cython >= 0.16
+BuildRequires:  python3-devel
+BuildRequires:  rpm-pythonprov
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -80,15 +86,41 @@ Python binding for seccomp library.
 %description -n python-seccomp -l pl.UTF-8
 Wiązanie Pythona do biblioteki seccomp.
 
+%package -n python3-seccomp
+Summary:        Python 3 binding for seccomp library
+Summary(pl.UTF-8):      Wiązanie Pythona 3 do biblioteki seccomp
+Group:          Libraries/Python
+Requires:       %{name} = %{version}-%{release}
+
+%description -n python3-seccomp
+Python 3 binding for seccomp library.
+
+%description -n python3-seccomp -l pl.UTF-8
+Wiązanie Pythona 3 do biblioteki seccomp.
+
 %prep
 %setup -q
 
 %build
 %configure \
 	--disable-silent-rules \
-	%{?with_python:--enable-python} \
+	--disable-python
 	%{!?with_static_libs:--disable-static}
 %{__make}
+
+CPPFLAGS="-I$(pwd)/include"; export CPPFLAGS
+cd src/python
+VERSION_RELEASE="%{version}"; export VERSION_RELEASE
+%if %{with python2}
+%py_build
+#%{?with_tests:test}
+%endif
+
+%if %{with python3}
+%py3_build
+#%{?with_tests:test}
+%endif
+cd ../../
 
 %{?with_tests:%{__make} check}
 
@@ -99,6 +131,22 @@ rm -rf $RPM_BUILD_ROOT
 
 # obsoleted by pkg-config file
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libseccomp.la
+
+CPPFLAGS="-I$(pwd)/include"; export CPPFLAGS
+cd src/python
+VERSION_RELEASE="%{version}"; export VERSION_RELEASE
+%if %{with python2}
+%py_install
+
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+
+%py_postclean
+%endif
+
+%if %{with python3}
+%py3_install
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -127,9 +175,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libseccomp.a
 %endif
 
-%if %{with python}
+%if %{with python2}
 %files -n python-seccomp
 %defattr(644,root,root,755)
 %attr(755,root,root) %{py_sitedir}/seccomp.so
 %{py_sitedir}/seccomp-%{version}-py*.egg-info
+%endif
+
+%if %{with python3}
+%files -n python3-seccomp
+%defattr(644,root,root,755)
+%attr(755,root,root) %{py3_sitedir}/seccomp.*.so
+%{py3_sitedir}/seccomp-%{version}-py*.egg-info
 %endif
