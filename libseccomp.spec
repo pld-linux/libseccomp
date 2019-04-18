@@ -2,8 +2,8 @@
 # Conditional build:
 %bcond_without	tests		# "make check"
 %bcond_without	static_libs	# static library
-%bcond_without  python2 # CPython 2.x module
-%bcond_without  python3 # CPython 3.x module
+%bcond_without	python2		# CPython 2.x module
+%bcond_without	python3		# CPython 3.x module
 
 %ifnarch %{x8664}
 # tests seem broken on x86 and x32
@@ -24,12 +24,14 @@ BuildRequires:	pkgconfig
 %if %{with python2}
 BuildRequires:	python-Cython >= 0.16
 BuildRequires:	python-devel
-BuildRequires:	rpm-pythonprov
 %endif
 %if %{with python3}
-BuildRequires:  python3-Cython >= 0.16
-BuildRequires:  python3-devel
-BuildRequires:  rpm-pythonprov
+BuildRequires:	python3-Cython >= 0.16
+BuildRequires:	python3-devel
+%endif
+%if %{with python2} || %{with python3}
+BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.714
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -87,10 +89,10 @@ Python binding for seccomp library.
 Wiązanie Pythona do biblioteki seccomp.
 
 %package -n python3-seccomp
-Summary:        Python 3 binding for seccomp library
-Summary(pl.UTF-8):      Wiązanie Pythona 3 do biblioteki seccomp
-Group:          Libraries/Python
-Requires:       %{name} = %{version}-%{release}
+Summary:	Python 3 binding for seccomp library
+Summary(pl.UTF-8):	Wiązanie Pythona 3 do biblioteki seccomp
+Group:		Libraries/Python
+Requires:	%{name} = %{version}-%{release}
 
 %description -n python3-seccomp
 Python 3 binding for seccomp library.
