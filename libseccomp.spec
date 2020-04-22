@@ -106,7 +106,7 @@ Wiązanie Pythona 3 do biblioteki seccomp.
 %build
 %configure \
 	--disable-silent-rules \
-	--disable-python
+	--disable-python \
 	%{!?with_static_libs:--disable-static}
 %{__make}
 
