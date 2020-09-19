@@ -12,27 +12,29 @@
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
-Version:	2.4.3
+Version:	2.5.0
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
 #Source0Download: https://github.com/seccomp/libseccomp/releases
 Source0:	https://github.com/seccomp/libseccomp/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	1de97a3c04889a790d97722d08f4a8d1
+# Source0-md5:	463b688bf7d227325b5a465b6bdc3ec4
 URL:		https://github.com/seccomp/libseccomp
+BuildRequires:	gperf
 BuildRequires:	pkgconfig
 %if %{with python2}
-BuildRequires:	python-Cython >= 0.16
-BuildRequires:	python-devel
+BuildRequires:	python-Cython >= 0.29
+BuildRequires:	python-devel >= 1:2.6
 %endif
 %if %{with python3}
-BuildRequires:	python3-Cython >= 0.16
-BuildRequires:	python3-devel
+BuildRequires:	python3-Cython >= 0.29
+BuildRequires:	python3-devel >= 1:3.3
 %endif
 %if %{with python2} || %{with python3}
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %endif
+ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} aarch64 mips mips64 parisc parisc64 ppc ppc64 riscv64 s390 s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -115,12 +117,10 @@ cd src/python
 VERSION_RELEASE="%{version}"; export VERSION_RELEASE
 %if %{with python2}
 %py_build
-#%{?with_tests:test}
 %endif
 
 %if %{with python3}
 %py3_build
-#%{?with_tests:test}
 %endif
 cd ../../
 
@@ -158,7 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG CREDITS README.md
+%doc CHANGELOG CREDITS README.md SECURITY.md
 %attr(755,root,root) %{_bindir}/scmp_sys_resolver
 %attr(755,root,root) %{_libdir}/libseccomp.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libseccomp.so.2
