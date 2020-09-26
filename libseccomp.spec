@@ -9,6 +9,11 @@
 # tests seem broken on x86 and x32
 %undefine	with_tests
 %endif
+
+%if %{without static_libs}
+%undefine	with_python2
+%undefine	with_python3
+%endif
 Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
