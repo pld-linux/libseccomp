@@ -40,7 +40,8 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 %endif
 %if %{with tests}
-BuildConflicts:	valgrind
+BuildRequires:	glibc-debuginfo
+BuildRequires:	valgrind
 %endif
 ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} aarch64 mips mips64 parisc parisc64 ppc ppc64 riscv64 s390 s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
