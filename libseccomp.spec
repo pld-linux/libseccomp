@@ -18,7 +18,7 @@ Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
 Version:	2.5.2
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Libraries
 #Source0Download: https://github.com/seccomp/libseccomp/releases
@@ -38,6 +38,10 @@ BuildRequires:	python3-devel >= 1:3.3
 %if %{with python2} || %{with python3}
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
+%endif
+%if %{with tests}
+BuildRequires:	glibc-debuginfo
+BuildRequires:	valgrind
 %endif
 ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} aarch64 mips mips64 parisc parisc64 ppc ppc64 riscv64 s390 s390x
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
