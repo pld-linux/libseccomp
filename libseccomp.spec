@@ -30,6 +30,7 @@ BuildRequires:	pkgconfig
 %if %{with python2}
 BuildRequires:	python-Cython >= 0.29
 BuildRequires:	python-devel >= 1:2.6
+BuildRequires:	python-modules
 %endif
 %if %{with python3}
 BuildRequires:	python3-Cython >= 0.29
