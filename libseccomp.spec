@@ -1,14 +1,9 @@
 #
 # Conditional build:
-%bcond_without	tests		# "make check"
+%bcond_with	tests		# "make check"
 %bcond_without	static_libs	# static library
 %bcond_without	python2		# CPython 2.x module
 %bcond_without	python3		# CPython 3.x module
-
-%ifnarch %{x8664}
-# tests seem broken on x86 and x32
-%undefine	with_tests
-%endif
 
 %if %{without static_libs}
 %undefine	with_python2
@@ -18,7 +13,7 @@ Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
 Version:	2.6.0
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Libraries
 #Source0Download: https://github.com/seccomp/libseccomp/releases
