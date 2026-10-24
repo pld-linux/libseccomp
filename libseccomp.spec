@@ -13,7 +13,7 @@ Summary:	Enhanced Seccomp (mode 2) Helper library
 Summary(pl.UTF-8):	Rozszerzona biblioteka pomocnicza Seccomp (trybu 2)
 Name:		libseccomp
 Version:	2.6.1
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Libraries
 #Source0Download: https://github.com/seccomp/libseccomp/releases
@@ -63,7 +63,7 @@ adaptowalny dla programistów aplikacji.
 Summary:	Header files for Seccomp library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Seccomp
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 Header files for Seccomp library.
@@ -75,7 +75,7 @@ Pliki nagłówkowe biblioteki Seccomp.
 Summary:	Static Seccomp library
 Summary(pl.UTF-8):	Statyczna biblioteka Seccomp
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description static
 Static Seccomp library.
@@ -87,7 +87,7 @@ Statyczna biblioteka Seccomp.
 Summary:	Python binding for seccomp library
 Summary(pl.UTF-8):	Wiązanie Pythona do biblioteki seccomp
 Group:		Libraries/Python
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description -n python-seccomp
 Python binding for seccomp library.
@@ -99,7 +99,7 @@ Wiązanie Pythona do biblioteki seccomp.
 Summary:	Python 3 binding for seccomp library
 Summary(pl.UTF-8):	Wiązanie Pythona 3 do biblioteki seccomp
 Group:		Libraries/Python
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description -n python3-seccomp
 Python 3 binding for seccomp library.
